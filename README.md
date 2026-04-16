@@ -1,7 +1,7 @@
-# Binary Fortune Telling Technical Summary
+# binary-omikuji Technical Summary
 
 ## 1. Overview
-- **Title**: Binary Fortune Telling
+- **Title**: binary-omikuji
 - **Release Date**: April 2026
 - **Public URL**: [https://shimataiyaki.github.io/binary-omikuji/]
 - **Repository**: [https://github.com/shimataiyaki/binary-omikuji]
