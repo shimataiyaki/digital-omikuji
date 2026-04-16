@@ -1,61 +1,63 @@
-# 二進数おみくじ テクニカルサマリー
+# Binary Fortune Telling Technical Summary
 
-## 1. 概要
-- **作品名**：二進数おみくじ
-- **制作時期**：2026年4月
-- **公開URL**：[https://shimataiyaki.github.io/binary-omikuji/]
-- **リポジトリ**：[https://github.com/shimataiyaki/binary-omikuji]
+## 1. Overview
+- **Title**: Binary Fortune Telling
+- **Release Date**: April 2026
+- **Public URL**: [https://shimataiyaki.github.io/binary-omikuji/]
+- **Repository**: [https://github.com/shimataiyaki/binary-omikuji]
 
-## 2. 開発経緯
+## 2. Development Background
 
-### 2.1 着想と位置づけ
-- 本作品は、**「部活動展示にも流用可能な個人制作プロダクト」** として開発した。
-- 情報系部活の文化祭展示を想定しつつ、まずは個人のポートフォリオとして完成度を高めることを優先。
-- 実際の運用検証はこれからだが、静的サイト完結・紙カード連動という設計により、当日のネットワーク負荷や機材トラブルを回避できる見込み。
+### 2.1 Concept and Purpose
+- This project was developed as a **“personal project that can also be repurposed for club activity exhibitions”**.
+- While envisioning its use in exhibitions at cultural festivals for IT-related clubs, the priority was initially on refining the project’s quality as a personal portfolio.
+- Although actual operational testing is still pending, the design—which relies on a standalone static site and integrates with physical paper cards—is expected to prevent network overload and equipment malfunctions on the day of the event.
 
-### 2.2 プロトタイピングの変遷
-- **V1（最小構成版）**：コンセプトが技術的に可能かどうかの検証用
-- **v1（マイナーアップデート版）**：v1に若干の変更を施したバージョン
-- **v3（UIオマージュ版）**：恋みくじ v3 の和風UIを参考に、札のデザインを実装。
-- **v4 (マイナーアップデート版)**:v3に若干の変更を施したバージョン
+### 2.2 Prototyping Evolution
+- **V1 (Minimal Configuration)**: For verifying the technical feasibility of the concept
+- **v1 (Minor Update)**: A version with slight modifications to v1
+- **v3 (UI Homage)**: Implemented card designs inspired by the Japanese-style UI of Koi Mikuji v3.
+- **v4 (Minor Update)**: A version with minor changes to v3
 
-## 3. 使用技術
-- **フロントエンド**：HTML5, CSS3, JavaScript (ES6)
-- **ホスティング**：GitHub Pages
-- **エディタ**：VS Code / Cursor (AI支援開発)
-- **デザイン**：手書きラフ
+## 3. Technologies Used
+- **Frontend**: HTML5, CSS3, JavaScript (ES6)
+- **Hosting**: GitHub Pages
+- **Editor**: VS Code / Cursor (AI-assisted development)
+- **Design**: Hand-drawn sketches
 
-## 4. システム構成図
+## 4. System Architecture Diagram
 
-[Chromebook] → [GitHubPages] → [ブラウザ上で抽選]
+[Chromebook] → [GitHub Pages] → [Random draw in browser]
 ↓
-[部員が紙カードを手渡し]
+[Club members hand out paper cards]
 
-## 5. 技術解説
-## 5.1 開発プロセスと学び
-- **Vibe Coding の実践**: 本作品は、AIとの対話によってコーディングを行う、 **Vibe Coding** のアプローチで制作した。恋みくじのUIから受けた印象をAIとの対話で形にすることで、個人開発でも短期間で高い完成度に到達できることを確認した。
-### 5.2 抽選ロジック
-- JavaScriptの `Math.random()` を用いたシンプルな抽選。
-- 二進数 `0000` ～ `1111` の16種類を配列で定義。
-- **連打防止**：抽選中はボタンを無効化し、`setTimeout` で2.5秒の待機演出を実装。
+## 5. Technical Explanation
+## 5.1 Development Process and Lessons Learned
+- **Practicing Vibe Coding**: This project was created using the **Vibe Coding** approach, which involves coding through dialogue with AI. By shaping the impressions gained from the Love Fortune Telling UI through dialogue with AI, I confirmed that even as an individual developer, it is possible to achieve a high level of completion in a short period of time.
+### 5.2 Random Selection Logic
+- A simple random selection using JavaScript’s `Math.random()`.
+- Defined 16 types of binary numbers from `0000` to `1111` in an array.
+- **Anti-spam**: Disabled the button during the selection process and implemented a 2.5-second wait effect using `setTimeout`.
 
-### 5.3 UI/UX（恋みくじオマージュ）
-- **札のデザイン**：CSSのみで縦書き・ホバーアニメーションを実現。`writing-mode: vertical-rl` を使用。
-- **レスポンシブ対応**：Flexboxを用いて、スマホでも札が中央揃えで折り返す設計。
+### 5.3 UI/UX (Homage to Love Fortune Telling)
+- **Card Design**: Achieved vertical text and hover animations using only CSS. Used `writing-mode: vertical-rl`.
+- **Responsive Design**: Used Flexbox to ensure cards wrap and center on mobile devices.
 
-### 5.4 運用設計
-- **Webと物理の融合**：画面上には運勢を表示せず、二進数のみを表示。
-- **部員が対応表を見て紙カードを渡す**ことで、必ず会話が生まれる仕組みを構築。
+### 5.4 Operational Design
+- **Integration of Web and Physical Elements**: Fortune results are not displayed on the screen; only binary code is shown.
+- **Club members hand out paper cards based on a reference chart**, creating a mechanism that guarantees conversation.
 
-## 6. 開発中の課題と解決策
-| 課題 | 解決策 |
+## 6. Development Challenges and Solutions
+| Challenge | Solution |
 | :--- | :--- |
-| 当日の回線負荷が心配 | サーバーサイド処理を排除し、静的サイト（GitHub Pages）で完結させた |
-| スマホでの表示崩れ | Viewport設定とメディアクエリでフォントサイズを最適化 |
+| Concerns about network load on the day of the event | Eliminated server-side processing and implemented a static site (GitHub Pages) |
+| Display issues on smartphones | Optimized font sizes using viewport settings and media queries |
 
-## 6. 今後の展望
-- 実際の文化祭展示を通じて、運営面の課題（紙カードの在庫管理、待機時間の適正値など）を洗い出し、改善を図る予定。
-- おみくじ結果の集計機能（Google Apps Script連携）
+## 6. Future Outlook
+- Through the actual cultural festival exhibition, we plan to identify operational challenges (such as paper card inventory management and optimal wait times) and work on improvements.
+- Omikuji result aggregation feature (integrated with Google Apps Script)
 
-## 7. 謝辞 / リスペクト
-- 本作品のUIは「恋みくじ v3」[https://koi-mikuji.omikuji-do.com/v3/] へのリスペクトに基づき、独自に実装したものです。
+## 7. Acknowledgments / Inspiration
+- The UI for this project was independently implemented based on inspiration from “Koi Mikuji v3” [https://koi-mikuji.omikuji-do.com/v3/].
+
+Translated with DeepL.com (free version)
