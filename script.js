@@ -1,7 +1,3 @@
-/* ============================================
-   script.js - 二進数おみくじ 機能 & UI制御
-   ============================================ */
-
 (function() {
     'use strict';
 
@@ -15,7 +11,6 @@
     const WAIT_TIME = 2500;
     const CARD_COUNT = 10;
 
-    // DOM要素（おみくじ関連）
     const cardsGrid = document.getElementById('cardsGrid');
     const binaryNumber = document.getElementById('binary-number');
     const binarySuffix = document.getElementById('binary-suffix');
@@ -24,8 +19,8 @@
     let isDrawing = false;
     let timeoutId = null;
 
-    // 札を生成
     function buildCards() {
+        if (!cardsGrid) return;
         cardsGrid.innerHTML = '';
         for (let i = 0; i < CARD_COUNT; i++) {
             const card = document.createElement('div');
@@ -37,7 +32,7 @@
         }
     }
 
-    function onCardClick(e) {
+    function onCardClick() {
         if (isDrawing) return;
         startDrawing();
     }
@@ -47,17 +42,17 @@
         const allCards = document.querySelectorAll('.omikuji-card');
         allCards.forEach(card => card.classList.add('disabled'));
 
-        binaryNumber.textContent = '';
-        binarySuffix.textContent = '';
-        waitingMsg.textContent = '抽選中・・・';
+        if (binaryNumber) binaryNumber.textContent = '';
+        if (binarySuffix) binarySuffix.textContent = '';
+        if (waitingMsg) waitingMsg.textContent = '抽選中・・・';
 
         const randomIndex = Math.floor(Math.random() * BINARY_LIST.length);
         const selectedBinary = BINARY_LIST[randomIndex];
 
         timeoutId = setTimeout(() => {
-            binaryNumber.textContent = selectedBinary;
-            binarySuffix.textContent = '(2)';
-            waitingMsg.textContent = '';
+            if (binaryNumber) binaryNumber.textContent = selectedBinary;
+            if (binarySuffix) binarySuffix.textContent = '(2)';
+            if (waitingMsg) waitingMsg.textContent = '';
 
             allCards.forEach(card => card.classList.remove('disabled'));
             isDrawing = false;
@@ -66,70 +61,69 @@
     }
 
     function initializeDisplay() {
-        binaryNumber.textContent = '----';
-        binarySuffix.textContent = '';
-        waitingMsg.textContent = '';
+        if (binaryNumber) binaryNumber.textContent = '----';
+        if (binarySuffix) binarySuffix.textContent = '';
+        if (waitingMsg) waitingMsg.textContent = '';
     }
 
-    // ---------- ハンバーガーメニュー制御 ----------
-    function setupMobileMenu() {
-        const toggleBtn = document.getElementById('menuToggle');
-        const navMenu = document.getElementById('navMenu');
-        if (!toggleBtn || !navMenu) return;
+    // ---------- ハンバーガーメニュー制御（常時表示・全幅展開） ----------
+    const toggleBtn = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
 
-        toggleBtn.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            const expanded = navMenu.classList.contains('active');
-            this.setAttribute('aria-expanded', expanded);
+    if (toggleBtn && navMenu) {
+        toggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navMenu.classList.toggle('show');
+            toggleBtn.classList.toggle('active');
         });
 
-        // メニュー外クリックで閉じる
         document.addEventListener('click', function(e) {
             if (!toggleBtn.contains(e.target) && !navMenu.contains(e.target)) {
-                navMenu.classList.remove('active');
-                toggleBtn.setAttribute('aria-expanded', 'false');
+                navMenu.classList.remove('show');
+                toggleBtn.classList.remove('active');
             }
         });
 
-        // 画面幅が広がったらメニューを強制リセット
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 600) {
-                navMenu.classList.remove('active');
-                toggleBtn.setAttribute('aria-expanded', 'false');
-            }
-        });
-
-        // メニュー内リンクをタップしたら閉じる（モバイルで自然な動作）
         navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                toggleBtn.setAttribute('aria-expanded', 'false');
+                navMenu.classList.remove('show');
+                toggleBtn.classList.remove('active');
             });
         });
     }
 
     // ---------- スムーススクロール（遊び方リンク用） ----------
-    function setupSmoothScroll() {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href === '#' || href === '#howto') {
-                    e.preventDefault();
-                    const target = document.querySelector('#howto');
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            });
+    document.querySelectorAll('a[href="#howto"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector('#howto');
+            if (target) {
+                const headerOffset = 80;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
         });
-    }
+    });
+
+    // メニュー内の「遊び方」も同様に
+    document.querySelectorAll('.nav-menu a[href="#howto"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector('#howto');
+            if (target) {
+                const headerOffset = 80;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+        });
+    });
 
     // ---------- 初期化 ----------
     function init() {
         buildCards();
         initializeDisplay();
-        setupMobileMenu();
-        setupSmoothScroll();
 
         window.addEventListener('beforeunload', function() {
             if (timeoutId) clearTimeout(timeoutId);
