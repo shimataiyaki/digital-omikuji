@@ -20,7 +20,6 @@
     const binaryNumber = document.getElementById('binary-number');
     const binarySuffix = document.getElementById('binary-suffix');
     const waitingMsg = document.getElementById('waiting-message');
-    const resetButton = document.getElementById('resetButton');
 
     let isDrawing = false;      // 抽選中フラグ
     let timeoutId = null;
@@ -67,24 +66,6 @@
             isDrawing = false;
             timeoutId = null;
         }, WAIT_TIME);
-    }
-
-    // ---------- リセット処理 ----------
-    function resetDisplay() {
-        // 抽選中タイマーが動いていればキャンセル
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-            timeoutId = null;
-        }
-        // 表示を初期状態に戻す
-        binaryNumber.textContent = '----';
-        binarySuffix.textContent = '';
-        waitingMsg.textContent = '';
-        // 抽選中フラグを解除
-        isDrawing = false;
-        // すべての札を再アクティブ化
-        const allCards = document.querySelectorAll('.omikuji-card');
-        allCards.forEach(card => card.classList.remove('disabled'));
     }
 
     // ---------- 初期表示 ----------
@@ -148,11 +129,6 @@
         initializeDisplay();
         setupMobileMenu();
         setupSmoothScroll();
-
-        // リセットボタンのイベント登録
-        if (resetButton) {
-            resetButton.addEventListener('click', resetDisplay);
-        }
 
         // ページ離脱時にタイマーをクリア
         window.addEventListener('beforeunload', function() {
