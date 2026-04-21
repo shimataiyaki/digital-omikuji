@@ -1,3 +1,7 @@
+/* ============================================
+   script.js - 二進数おみくじ 機能 & UI制御
+   ============================================ */
+
 (function() {
     'use strict';
 
@@ -8,19 +12,21 @@
         "1000", "1001", "1010", "1011",
         "1100", "1101", "1110", "1111"
     ];
-    const WAIT_TIME = 2500;
-    const CARD_COUNT = 16;
+    const WAIT_TIME = 2500; // 2.5秒
+    const CARD_COUNT = 10;   // 10枚表示
 
+    // DOM要素（おみくじ関連）
     const cardsGrid = document.getElementById('cardsGrid');
     const binaryNumber = document.getElementById('binary-number');
     const binarySuffix = document.getElementById('binary-suffix');
     const waitingMsg = document.getElementById('waiting-message');
+    const resetButton = document.getElementById('resetButton');
 
-    let isDrawing = false;
+    let isDrawing = false;      // 抽選中フラグ
     let timeoutId = null;
 
+    // ---------- 札を10枚生成 ----------
     function buildCards() {
-        if (!cardsGrid) return;
         cardsGrid.innerHTML = '';
         for (let i = 0; i < CARD_COUNT; i++) {
             const card = document.createElement('div');
@@ -32,27 +38,30 @@
         }
     }
 
-    function onCardClick() {
+    // ---------- 札クリック時の処理 ----------
+    function onCardClick(e) {
         if (isDrawing) return;
         startDrawing();
     }
 
+    // ---------- 抽選開始 ----------
     function startDrawing() {
         isDrawing = true;
+
         const allCards = document.querySelectorAll('.omikuji-card');
         allCards.forEach(card => card.classList.add('disabled'));
 
-        if (binaryNumber) binaryNumber.textContent = '';
-        if (binarySuffix) binarySuffix.textContent = '';
-        if (waitingMsg) waitingMsg.textContent = '抽選中・・・';
+        binaryNumber.textContent = '';
+        binarySuffix.textContent = '';
+        waitingMsg.textContent = '抽選中・・・';
 
         const randomIndex = Math.floor(Math.random() * BINARY_LIST.length);
         const selectedBinary = BINARY_LIST[randomIndex];
 
         timeoutId = setTimeout(() => {
-            if (binaryNumber) binaryNumber.textContent = selectedBinary;
-            if (binarySuffix) binarySuffix.textContent = '(2)';
-            if (waitingMsg) waitingMsg.textContent = '';
+            binaryNumber.textContent = selectedBinary;
+            binarySuffix.textContent = '(2)';
+            waitingMsg.textContent = '';
 
             allCards.forEach(card => card.classList.remove('disabled'));
             isDrawing = false;
@@ -60,71 +69,92 @@
         }, WAIT_TIME);
     }
 
-    function initializeDisplay() {
-        if (binaryNumber) binaryNumber.textContent = '----';
-        if (binarySuffix) binarySuffix.textContent = '';
-        if (waitingMsg) waitingMsg.textContent = '';
+    // ---------- リセット処理 ----------
+    function resetDisplay() {
+        // 抽選中タイマーが動いていればキャンセル
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+            timeoutId = null;
+        }
+        // 表示を初期状態に戻す
+        binaryNumber.textContent = '----';
+        binarySuffix.textContent = '';
+        waitingMsg.textContent = '';
+        // 抽選中フラグを解除
+        isDrawing = false;
+        // すべての札を再アクティブ化
+        const allCards = document.querySelectorAll('.omikuji-card');
+        allCards.forEach(card => card.classList.remove('disabled'));
     }
 
-    // ---------- ハンバーガーメニュー制御（常時表示・全幅展開） ----------
-    const toggleBtn = document.getElementById('menuToggle');
-    const navMenu = document.getElementById('navMenu');
+    // ---------- 初期表示 ----------
+    function initializeDisplay() {
+        binaryNumber.textContent = '----';
+        binarySuffix.textContent = '';
+        waitingMsg.textContent = '';
+    }
 
-    if (toggleBtn && navMenu) {
-        toggleBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
+    // ---------- ハンバーガーメニュー制御 ----------
+    function setupMobileMenu() {
+        const toggleBtn = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        if (!toggleBtn || !navMenu) return;
+
+        toggleBtn.addEventListener('click', function() {
             navMenu.classList.toggle('show');
-            toggleBtn.classList.toggle('active');
+            this.classList.toggle('active');
+            const expanded = navMenu.classList.contains('show');
+            this.setAttribute('aria-expanded', expanded);
         });
 
+        // メニュー外クリックで閉じる
         document.addEventListener('click', function(e) {
             if (!toggleBtn.contains(e.target) && !navMenu.contains(e.target)) {
                 navMenu.classList.remove('show');
                 toggleBtn.classList.remove('active');
+                toggleBtn.setAttribute('aria-expanded', 'false');
             }
         });
 
+        // メニュー内リンクをタップしたら閉じる
         navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('show');
                 toggleBtn.classList.remove('active');
+                toggleBtn.setAttribute('aria-expanded', 'false');
             });
         });
     }
 
     // ---------- スムーススクロール（遊び方リンク用） ----------
-    document.querySelectorAll('a[href="#howto"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector('#howto');
-            if (target) {
-                const headerOffset = 80;
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-            }
+    function setupSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#howto') {
+                    e.preventDefault();
+                    const target = document.querySelector('#howto');
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
         });
-    });
-
-    // メニュー内の「遊び方」も同様に
-    document.querySelectorAll('.nav-menu a[href="#howto"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector('#howto');
-            if (target) {
-                const headerOffset = 80;
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-            }
-        });
-    });
+    }
 
     // ---------- 初期化 ----------
     function init() {
         buildCards();
         initializeDisplay();
+        setupMobileMenu();
+        setupSmoothScroll();
 
+        // リセットボタンのイベント登録
+        if (resetButton) {
+            resetButton.addEventListener('click', resetDisplay);
+        }
+
+        // ページ離脱時にタイマーをクリア
         window.addEventListener('beforeunload', function() {
             if (timeoutId) clearTimeout(timeoutId);
         });
