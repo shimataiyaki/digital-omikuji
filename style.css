@@ -1,7 +1,6 @@
 /* ============================================
-   Webアプリ用：二進数おみくじ
-   フォント：游明朝（和モチーフ）
-   構造：Webサイト用系譜（ヘッダー／フッター／直線）
+   style.css - 二進数おみくじ 最終版
+   16枚札・リセットボタン・リンクなし
    ============================================ */
 
 * {
@@ -11,19 +10,13 @@
 }
 
 :root {
-    /* ベースカラー（Webサイト用共通） */
     --bg-color: #ffffff;
     --text-color: #1f2937;
     --border-color: #e2e8f0;
     --muted-text: #64748b;
-    
-    /* アクセントカラー：二進数おみくじ固有（朱赤） */
-    --accent-color: #ad241f;
-    
-    /* おみくじ専用色 */
+    --accent-color: #ad241f;      /* 朱赤 */
     --card-bg: #c84b3f;
     --card-text: #f9e076;
-    --guide-bg: #faf0e8;   /* ごく薄い和紙色（案内文のみ） */
 }
 
 body {
@@ -32,133 +25,36 @@ body {
     color: var(--text-color);
     line-height: 1.8;
     font-weight: 400;
-    padding-top: 5rem;      /* 固定ヘッダー分 */
     margin: 0;
-}
-
-/* ----- 固定ヘッダー（全幅・常時ハンバーガー） ----- */
-.site-header {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: var(--bg-color);
-    border-bottom: 3px solid var(--accent-color);
-    z-index: 1000;
-}
-
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0.75rem 1.5rem;
+    padding: 2rem 1.5rem;
+    min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
 }
 
-.site-title {
-    font-family: '游明朝', 'Yu Mincho', serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: #0f172a;
-    text-decoration: none;
-}
-
-.site-title:hover {
-    color: var(--accent-color);
-}
-
-/* ハンバーガーボタン（常時表示） */
-.menu-toggle {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 32px;
-    height: 28px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-
-.menu-toggle span {
-    width: 100%;
-    height: 3px;
-    background: var(--accent-color);
-    transition: all 0.3s;
-}
-
-.menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-.menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-.menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -7px);
-}
-
-/* 全幅ナビメニュー */
-.nav-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: var(--bg-color);
-    border-bottom: 1px solid var(--border-color);
-    padding: 1.5rem 0;
-    margin: 0;
-    list-style: none;
-    z-index: 999;
-}
-
-.nav-menu.show {
-    display: block;
-}
-
-.nav-menu-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.nav-menu li {
-    list-style: none;
-}
-
-.nav-menu a {
-    font-family: '游明朝', 'Yu Mincho', serif;
-    text-decoration: none;
-    color: var(--text-color);
-    font-weight: 500;
-    font-size: 1.1rem;
-    padding: 0.2rem 0;
-    display: inline-block;
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.2s, color 0.2s;
-}
-
-.nav-menu a:hover {
-    color: var(--accent-color);
-    border-bottom-color: var(--accent-color);
-}
-
-/* ----- メインコンテンツ（中央1カラム） ----- */
+/* ----- メインコンテンツ ----- */
 .app-main {
     max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
-    padding: 2rem 1.5rem;
 }
 
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+/* サイトタイトル */
+.site-title {
+    font-family: '游明朝', 'Yu Mincho', serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 .subtitle {
@@ -172,7 +68,7 @@ body {
     display: inline-block;
 }
 
-/* ----- おみくじ札（モチーフを尊重・長方形化） ----- */
+/* ----- おみくじ札（16枚・長方形） ----- */
 .cards-grid {
     display: flex;
     flex-wrap: wrap;
@@ -188,9 +84,7 @@ body {
     height: 140px;
     background-color: var(--card-bg);
     color: var(--card-text);
-    /* 角丸除去（長方形） */
     border-radius: 0;
-    /* 影は控えめに（立体感は残す） */
     box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
@@ -224,7 +118,10 @@ body {
 .result-area {
     text-align: center;
     margin: 1rem 0 2rem;
-    min-height: 160px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #binary-display {
@@ -251,26 +148,61 @@ body {
     font-family: '游明朝', 'Yu Mincho', serif;
     font-size: 1.2rem;
     color: var(--accent-color);
-    margin: 0;
+    margin: 0 0 10px;
     font-weight: 500;
+    min-height: 2rem;
 }
 
-/* ----- 案内文（シンプルに左ボーダーのみ） ----- */
+/* ----- リセットボタン（黒系・長方形枠線・無地） ----- */
+.reset-button {
+    background: transparent;
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
+    font-family: '游明朝', 'Yu Mincho', serif;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 28px;
+    border-radius: 0;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.25s ease;
+    letter-spacing: 2px;
+}
+
+.reset-button:hover {
+    background: var(--text-color);
+    color: #ffffff;
+    border-color: var(--text-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.reset-button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.reset-button:focus-visible {
+    outline: 2px solid var(--text-color);
+    outline-offset: 2px;
+}
+
+/* ----- 案内文 ----- */
 .guide-text {
     font-family: '游明朝', 'Yu Mincho', serif;
     font-size: 1rem;
     color: var(--text-color);
     background: none;
     padding: 0.75rem 0 0.75rem 1.5rem;
-    margin: 2rem 0 3rem;
+    margin: 1.5rem 0 2rem;
     border-left: 4px solid var(--accent-color);
     display: inline-block;
-    scroll-margin-top: 5rem;
+    scroll-margin-top: 2rem;
 }
 
-/* ----- フッター ----- */
+/* ----- フッター（コピーライトのみ） ----- */
 .app-footer {
-    margin-top: 2rem;
+    margin-top: 1rem;
     text-align: center;
     color: var(--muted-text);
     font-size: 0.9rem;
@@ -279,16 +211,7 @@ body {
     width: 100%;
 }
 
-/* 角丸ゼロ統一 */
-.site-header,
-.nav-menu,
-.omikuji-card,
-.guide-text,
-.app-footer {
-    border-radius: 0 !important;
-}
-
-/* ===== レスポンシブ ===== */
+/* レスポンシブ */
 @media (max-width: 800px) {
     .omikuji-card {
         width: 70px;
@@ -299,8 +222,8 @@ body {
         font-size: 60px;
         letter-spacing: 12px;
     }
-    .app-main {
-        padding: 1.5rem 1rem;
+    .site-title {
+        font-size: 2rem;
     }
 }
 
