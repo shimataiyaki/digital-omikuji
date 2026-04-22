@@ -1,5 +1,5 @@
 /* ============================================
-   script.js - 二進数おみくじ 最終版
+   script.js - デジタルおみくじ 最終版
    固定ヘッダー + 16枚札 + リセットボタン
    ============================================ */
 
@@ -8,10 +8,10 @@
 
     // ---------- 抽選データ ----------
     const BINARY_LIST = [
-        "0000", "0001", "0010", "0011",
-        "0100", "0101", "0110", "0111",
-        "1000", "1001", "1010", "1011",
-        "1100", "1101", "1110", "1111"
+        "〇一", "〇二", "〇三", "〇四",
+        "〇五", "〇六", "〇七", "〇八",
+        "〇九", "一〇", "一一", "一二",
+        "一三", "一四", "一五", "一六"
     ];
     const WAIT_TIME = 2500;     // 2.5秒
     const CARD_COUNT = 16;      // 16枚
@@ -61,7 +61,7 @@
 
         timeoutId = setTimeout(() => {
             binaryNumber.textContent = selectedBinary;
-            binarySuffix.textContent = '(2)';
+            binarySuffix.textContent = '番';
             waitingMsg.textContent = '';
 
             allCards.forEach(card => card.classList.remove('disabled'));
