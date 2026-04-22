@@ -1,5 +1,5 @@
 /* ============================================
-   script.js - デジタルおみくじ 最終版
+   script.js - デジタルおみくじ 本番版
    固定ヘッダー + 16枚札 + ポップアップ統合
    ============================================ */
 
@@ -122,7 +122,7 @@
         });
     }
 
-    // ---------- スムーススクロール（遊び方リンク用） ----------
+    // ---------- スムーススクロール ----------
     function setupSmoothScroll() {
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
