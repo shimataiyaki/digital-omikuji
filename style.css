@@ -1,5 +1,5 @@
 /* ============================================
-   style.css - デジタルおみくじ 最終版
+   style.css - デジタルおみくじ 本番版
    固定ヘッダー + 16枚札 + ポップアップ統合
    ============================================ */
 
@@ -170,7 +170,7 @@ body {
     display: inline-block;
 }
 
-/* ----- おみくじ札（16枚・長方形） ----- */
+/* ----- おみくじ札 ----- */
 .cards-grid {
     display: flex;
     flex-wrap: wrap;
@@ -224,7 +224,7 @@ body {
     color: var(--accent-color);
 }
 
-/* ----- 遊び方セクション（背景なし・左ボーダー） ----- */
+/* ----- 遊び方セクション ----- */
 .guide-section {
     margin: 1.5rem 0 0;
     display: inline-block;
@@ -239,7 +239,7 @@ body {
     border-left: 4px solid var(--accent-color);
 }
 
-/* ----- ポップアップ（モーダル）角丸・枠なし ----- */
+/* ----- ポップアップ（モーダル） ----- */
 .modal {
     display: none;
     position: fixed;
