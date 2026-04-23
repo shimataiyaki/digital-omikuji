@@ -1,10 +1,10 @@
-# e-omikuji（デジタルおみくじ）テクニカルサマリー
+# e-mikuji（デジタルおみくじ）テクニカルサマリー
 
 ## 1. 概要
-- **作品名**：e-omikuji（公開名称：デジタルおみくじ）
+- **作品名**：e-mikuji（公開名称：デジタルおみくじ）
 - **リリース時期**：2026年4月（文化祭展示向け）
-- **公開URL**：[https://shimataiyaki.github.io/binary-omikuji/](https://shimataiyaki.github.io/binary-omikuji/)
-- **リポジトリ**：[https://github.com/shimataiyaki/binary-omikuji](https://github.com/shimataiyaki/binary-omikuji)
+- **公開URL**：[https://shimataiyaki.github.io/e-mikuji/](https://shimataiyaki.github.io/e-mikuji/)
+- **リポジトリ**：[https://github.com/shimataiyaki/e-mikuji](https://github.com/shimataiyaki/e-mikuji)
 
 ## 2. 開発の背景
 
@@ -67,7 +67,7 @@
 
 ## 8. 謝辞／リスペクト
 - 本作品のUIは「[恋みくじ v3](https://koi-mikuji.omikuji-do.com/v3/)」へのリスペクトに基づき、独自に実装したものです。
-- プロジェクトの内部呼称「e-omikuji」は、`e-ma`とのシリーズ統一、および「良い（e）おみくじ」の意を込めたコードネームです。
+- プロジェクト名「e-mikuji」は、`e-ma`とのシリーズ統一、および「良い（e）みくじ」の意を込めたコードネームです。
 
 ## 9. ライセンスと配布
 - 本プロダクトのソースコードは **MITライセンス** の下で公開されています。
