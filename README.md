@@ -136,5 +136,3 @@ MIT License
 ---
 
 © 2026 Shimataiyaki
-
----
