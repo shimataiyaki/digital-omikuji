@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-LOTs について｜デジタルおみくじ</title>
     <meta name="description" content="E-LOTs（デジタルおみくじ）の概要、特徴、技術構成、開発背景について。">
-    <!-- OGP -->
     <meta property="og:title" content="E-LOTs について">
     <meta property="og:description" content="デジタルと紙を組み合わせた、文化祭向けおみくじWebアプリの解説です。">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://shimataiyaki.github.io/e-lots/about">
     <!-- ファビコン・共通CSS -->
     <link rel="icon" type="image/x-icon" href="https://shimataiyaki.github.io/images/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="https://shimataiyaki.github.io/images/favicon.ico">
+    <link rel="apple-touch-icon" href="https://shimataiyaki.github.io/images/favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <!-- Marked.js CDN (Markdown → HTML変換) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        /* 本文書独自の補足スタイル（共通CSSで不足するもののみ） */
-        .about-section {
+        /* aboutページ特有のスタイル補足 */
+        #md-content {
             max-width: 720px;
             margin: 0 auto 3rem;
             text-align: left;
             line-height: 1.9;
         }
-        .about-section h2 {
+        #md-content h2 {
             font-size: 1.6rem;
             font-weight: 600;
             color: var(--accent-color);
@@ -30,38 +33,38 @@
             border-bottom: 2px solid var(--accent-color);
             display: inline-block;
         }
-        .about-section h3 {
+        #md-content h3 {
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--text-color);
             margin: 1.8rem 0 0.5rem;
         }
-        .about-section p {
+        #md-content p {
             margin-bottom: 1rem;
         }
-        .about-section ul,
-        .about-section ol {
+        #md-content ul,
+        #md-content ol {
             margin: 0.5rem 0 1rem 1.5rem;
         }
-        .about-section li {
+        #md-content li {
             margin-bottom: 0.4rem;
         }
-        .about-section a {
+        #md-content a {
             color: var(--accent-color);
             text-decoration: none;
             border-bottom: 1px dotted var(--accent-color);
         }
-        .about-section a:hover {
+        #md-content a:hover {
             border-bottom: 1px solid var(--accent-color);
         }
-        .about-section code {
+        #md-content code {
             background: #f1f5f9;
             padding: 0.2em 0.4em;
             border-radius: 4px;
             font-size: 0.9em;
             font-family: 'Courier New', monospace;
         }
-        .about-section pre {
+        #md-content pre {
             background: #f8fafc;
             border: 1px solid var(--border-color);
             padding: 1rem 1.2rem;
@@ -72,35 +75,36 @@
             margin: 1rem 0 1.5rem;
             border-radius: 0;
         }
-        .about-section table {
+        #md-content table {
             width: 100%;
             border-collapse: collapse;
             margin: 1rem 0 1.5rem;
             font-size: 0.95rem;
         }
-        .about-section th,
-        .about-section td {
+        #md-content th,
+        #md-content td {
             border: 1px solid var(--border-color);
             padding: 0.7rem 0.8rem;
             text-align: left;
         }
-        .about-section th {
+        #md-content th {
             background: #f8fafc;
             font-weight: 600;
             color: var(--text-color);
         }
-        .about-section hr {
+        #md-content hr {
             border: none;
             border-top: 1px solid var(--border-color);
             margin: 2rem 0;
         }
-        .flow-text {
+        /* システムフロー図の専用表示 */
+        .flow-md {
             background: #fafafa;
             padding: 1.2rem 1.5rem;
             border-left: 4px solid var(--accent-color);
             font-family: 'Courier New', monospace;
             font-size: 0.9rem;
-            white-space: pre-line;
+            white-space: pre;
             margin: 0.5rem 0 1.5rem;
         }
     </style>
@@ -121,8 +125,8 @@
             </button>
             <ul class="nav-menu" id="navMenu">
                 <div class="nav-menu-inner">
-                    <li><a href="./about.html">E-LOTs について</a></li>
                     <li><a href="./#howto">遊び方</a></li>
+                    <li><a href="./about.html">E-LOTs について</a></li>
                     <li><a href="https://note.com/shimataiyaki" target="_blank" rel="noopener">note</a></li>
                     <li><a href="https://github.com/shimataiyaki/e-lots" target="_blank" rel="noopener">GitHub</a></li>
                 </div>
@@ -133,133 +137,9 @@
     <!-- メインコンテンツ -->
     <main class="app-main">
         <div class="container">
-            <!-- 見出し -->
             <div class="subtitle">E-LOTs について</div>
-
-            <!-- ドキュメント本文 -->
-            <div class="about-section">
-                <p>デジタルと紙を組み合わせた、文化祭向けおみくじWebアプリ<br>
-                <a href="https://shimataiyaki.github.io/e-lots/">公開URL</a></p>
-                <hr>
-
-                <h2>概要</h2>
-                <p>E-LOTsは、来場者のスマートフォンで抽選を行い、その結果に応じて紙のおみくじを手渡す仕組みのWebアプリです。<br>
-                デジタル完結ではなく、<strong>必ず対面のコミュニケーションが発生する設計</strong>を特徴としています。</p>
-
-                <h2>特徴</h2>
-                <ul>
-                    <li>ブラウザ上で完結するシンプルな抽選システム</li>
-                    <li>紙のおみくじと連動した運用設計</li>
-                    <li>モバイル前提のUI設計（文化祭運用に最適化）</li>
-                    <li>縦書き・札UIによる和風デザイン</li>
-                    <li>ネットワークや機材トラブルに強い静的構成（GitHub Pages）</li>
-                </ul>
-
-                <h2>使い方（来場者向け）</h2>
-                <ol>
-                    <li>スマホでアクセス</li>
-                    <li>好きな札をタップ</li>
-                    <li>表示された番号をスタッフに見せる</li>
-                    <li>対応する紙のおみくじを受け取る</li>
-                </ol>
-
-                <h2>システムの流れ</h2>
-                <p>来場者は自身のスマートフォンで抽選を行い、その結果をもとにスタッフが紙のおみくじを手渡します。</p>
-                <div class="flow-text">[来場者のスマホ] → [GitHub Pages] → [ブラウザ上で抽選]
-                                    ↓
-                        [スタッフが番号を照合]
-                                    ↓
-                        [紙のおみくじを手渡し]</div>
-
-                <h2>技術構成</h2>
-                <ul>
-                    <li><strong>フロントエンド</strong>：HTML5 / CSS3 / JavaScript（ES6）</li>
-                    <li><strong>ホスティング</strong>：GitHub Pages</li>
-                    <li><strong>開発環境</strong>：VS Code / Cursor</li>
-                    <li><strong>開発手法</strong>：AI支援による高速プロトタイピング</li>
-                </ul>
-
-                <h2>技術解説</h2>
-                <h3>抽選ロジック</h3>
-                <ul>
-                    <li>漢数字（<code>一</code>〜<code>十八</code>）からランダムに選択</li>
-                    <li>「四」「十四」は文化的配慮から除外</li>
-                    <li>等確率で16種類を維持</li>
-                </ul>
-
-                <h3>UI/UX設計</h3>
-                <ul>
-                    <li>CSSによる縦書き（<code>writing-mode: vertical-rl</code>）</li>
-                    <li>ホバー時の浮遊アニメーション</li>
-                    <li>モーダルによる結果表示（手動閉鎖）</li>
-                    <li>連打防止（<code>pointer-events: none</code>）</li>
-                    <li><strong>Gen.5にてUIを再設計し、独自構成へ移行</strong></li>
-                </ul>
-
-                <h3>運用設計（コア設計）</h3>
-                <ul>
-                    <li>結果は「番号のみ」表示</li>
-                    <li>運勢はあえて表示しない</li>
-                    <li>スタッフが紙と照合して手渡す</li>
-                </ul>
-                <p>▶ デジタル単体で完結させず、<strong>対話を設計に組み込んでいる</strong></p>
-
-                <h2>開発の背景</h2>
-                <p>本プロダクトは、<strong>文化祭展示と個人ポートフォリオの両立</strong>を目的に開発されました。</p>
-                <ul>
-                    <li>展示用途：安定性・運用性を重視</li>
-                    <li>個人制作：完成度・設計思想を重視</li>
-                </ul>
-                <p>その結果、「シンプルな技術 × 明確な運用設計」という構成になっています。</p>
-
-                <h2>開発プロセス（Gen.）</h2>
-                <table>
-                    <thead>
-                        <tr><th>世代</th><th>内容</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Gen.1</td><td>二進数による抽選ロジックの検証</td></tr>
-                        <tr><td>Gen.2</td><td>UIデザイン導入（札・縦書き）</td></tr>
-                        <tr><td>Gen.3</td><td>UI拡張（ヘッダー・メニュー等）</td></tr>
-                        <tr><td>Gen.4</td><td>ポップアップ統合・設計整理</td></tr>
-                        <tr><td>Gen.5</td><td>UI再設計（独自構成へ移行）</td></tr>
-                    </tbody>
-                </table>
-
-                <h2>課題と対応</h2>
-                <table>
-                    <thead>
-                        <tr><th>課題</th><th>解決策</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>前の結果が残る</td><td>モーダル閉鎖時に完全リセット</td></tr>
-                        <tr><td>「四」が不吉</td><td>抽選対象から除外</td></tr>
-                        <tr><td>デザイン不統一</td><td>UI再設計により統一</td></tr>
-                    </tbody>
-                </table>
-
-                <h2>今後の展望</h2>
-                <ul>
-                    <li>効果音（鈴）の追加</li>
-                    <li>結果の画像保存機能（html2canvas）</li>
-                    <li>実運用での導線・待機時間の最適化</li>
-                </ul>
-
-                <h2>命名について</h2>
-                <p>リポジトリ名 <code>e-lots</code> は、電子（e）と抽選（lots）を組み合わせた名称です。<br>
-                本プロダクトは「デジタルおみくじ」として公開しています。</p>
-
-                <h2>謝辞</h2>
-                <p>初期開発（Gen.2〜Gen.3）において、「恋みくじ v3」のUIから着想を得ました。<br>
-                その後、Gen.5にてUI設計を全面的に見直し、現在は独自のデザイン構成となっています。</p>
-
-                <h2>ライセンス</h2>
-                <p>MIT License</p>
-                <p>本プロダクトは教育・展示目的の非営利プロジェクトです。</p>
-                <hr>
-                <p>© 2026 Shimataiyaki</p>
-            </div>
-
+            <!-- README.md がここに動的に挿入される -->
+            <div id="md-content"></div>
             <!-- フッター -->
             <footer class="app-footer">
                 <span>© 2026 Shimataiyaki</span>
@@ -269,5 +149,28 @@
 
     <!-- 共通スクリプト（ハンバーガーメニュー等） -->
     <script src="script.js"></script>
+    <script>
+        // リポジトリの README.md を取得して表示
+        fetch('https://raw.githubusercontent.com/shimataiyaki/e-lots/main/README.md')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('README.md を読み込めませんでした');
+                }
+                return response.text();
+            })
+            .then(markdown => {
+                const mdContainer = document.getElementById('md-content');
+                // marked.js で変換し、プレースホルダーを置換（システムフロー図など）
+                let html = marked.parse(markdown);
+                // もし ```text ブロックがあれば、独自クラスを付与する簡易処理
+                html = html.replace(/<pre><code>/g, '<pre class="flow-md"><code>');
+                mdContainer.innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('md-content').innerHTML = 
+                    '<p style="color:#ad241f;">⚠️ READMEの読み込みに失敗しました。後ほど再読み込みしてください。</p>';
+                console.error(error);
+            });
+    </script>
 </body>
 </html>
