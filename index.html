@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デジタルおみくじ</title>
+    <meta name="description" content="デジタルおみくじは、情報系文化祭展示のためのWebおみくじです。漢数字の結果をポップアップで表示し、紙カードと連動します。">
+    <meta property="og:title" content="デジタルおみくじ">
+    <meta property="og:description" content="情報系文化祭展示のためのWebおみくじ。漢数字の結果をポップアップで表示します。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="#">
+    <!-- ファビコン -->
+    <link rel="icon" type="image/x-icon" href="#">
+    <link rel="shortcut icon" type="image/x-icon" href="#">
+    <link rel="apple-touch-icon" href="#">
+    <!-- 外部CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 固定ヘッダー -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="site-title-wrapper">
+                <a href="./" class="site-title">デジタルおみくじ</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="メニュー" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <div class="nav-menu-inner">
+                    <li><a href="./">トップ</a></li>
+                    <li><a href="./about.html">About</a></li>
+                    <hr>
+                    <li><a href="https://shimataiyaki.github.io/digital-ema" target="_blank" rel="noopener">デジタル絵馬</a></li>
+                    <li><a href="https://github.com/shimataiyaki/digital-omikuji-app" target="_blank" rel="noopener">GitHub</a></li>
+                </div>
+            </ul>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="app-main">
+        <div class="container">
+            <!-- 見出し -->
+            <div class="subtitle">おみくじを引く</div>
+
+            <!-- 遊び方セクション -->
+            <div class="guide-section" id="howto">
+                <div class="guide-text">
+                    ▶ 札を選んでタップしてください
+                </div>
+            </div>
+
+            <!-- おみくじ札 16枚 -->
+            <div class="cards-grid" id="cardsGrid"></div>
+
+            <!-- ポップアップ（モーダル） -->
+            <div id="resultModal" class="modal">
+                <div class="modal-content">
+                    <span class="modal-close" id="modalClose">&times;</span>
+                    <div class="modal-title" id="modalTitle">抽選中</div>
+                    <div id="modalNumber" class="modal-number horizontal">抽選中…</div>
+                    <div id="modalUnit" class="modal-unit"></div>
+                    <div id="modalGuide" class="modal-guide"></div>
+                </div>
+            </div>
+
+            <!-- フッター -->
+            <footer class="app-footer">
+                <span>© 2026 Shimataiyaki</span>
+            </footer>
+        </div>
+    </main>
+
+    <!-- 外部JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
