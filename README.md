@@ -130,6 +130,11 @@ digital-omikujiは、来場者のスマートフォンで抽選を行い、そ�
 ## ライセンス
 MIT License
 
+Documentation, articles, images, and website content are licensed under the
+Creative Commons Attribution-NonCommercial 4.0 International License.
+
+[https://creativecommons.org/licenses/by-nc/4.0/]
+
 本プロダクトは教育・展示目的の非営利プロジェクトです。
 
 ---
